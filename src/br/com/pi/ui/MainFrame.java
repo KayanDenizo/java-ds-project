@@ -1,5 +1,11 @@
+// Thayna
 package br.com.pi.ui;
 
-public class MainFrame {
+import javax.swing.*;
+
+public class MainFrame extends JFrame {
     
+    public MainFrame() {
+        // TODO: Implementar JFrame principal (janela)
+    }
 }

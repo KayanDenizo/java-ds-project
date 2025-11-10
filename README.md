@@ -1,0 +1,1 @@
+Vou criar dps o readme, to com preguiça agr hehehe
