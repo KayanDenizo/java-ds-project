@@ -1,6 +1,7 @@
 package br.com.pi;
 
 import br.com.pi.ui.MainFrame;
+import br.com.pi.ui.TabbedPaneComponent;
 
 import javax.swing.*;
 
