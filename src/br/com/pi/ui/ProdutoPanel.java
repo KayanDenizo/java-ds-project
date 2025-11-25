@@ -18,8 +18,10 @@ public class ProdutoPanel extends JPanel {
         setLayout(new BorderLayout(8, 8));
 
         JPanel painelFormulario = criarPainelFormulario();
+        ButtonPanel painelBotoes = new ButtonPanel(this);
 
         add(painelFormulario, BorderLayout.CENTER);
+        add(painelBotoes, BorderLayout.SOUTH);
     }
 
     private JPanel criarPainelFormulario() {
@@ -111,6 +113,17 @@ public class ProdutoPanel extends JPanel {
 
     public JRadioButton getRadioDuravel() {
         return radioDuravel;
+    }
+    
+    // Método para limpar todos os campos do formulário
+    public void limparCampos() {
+        campoNomeProduto.setText("");
+        campoCodigo.setText("");
+        campoPreco.setValue(null);
+        comboCategoria.setSelectedIndex(0);
+        checkDisponivel.setSelected(false);
+        radioConsumivel.setSelected(false);
+        radioDuravel.setSelected(false);
     }
 }
 

@@ -19,8 +19,10 @@ public class ClientePanel extends JPanel {
         setLayout(new BorderLayout(8, 8));
 
         JPanel painelFormulario = criarPainelFormulario();
+        ButtonPanel painelBotoes = new ButtonPanel(this);
 
         add(painelFormulario, BorderLayout.CENTER);
+        add(painelBotoes, BorderLayout.SOUTH);
     }
 
     private JPanel criarPainelFormulario() {
@@ -120,6 +122,18 @@ public class ClientePanel extends JPanel {
 
     public JComboBox<String> getComboUf() {
         return comboUf;
+    }
+    
+    // Método para limpar todos os campos do formulário
+    public void limparCampos() {
+        campoNome.setText("");
+        campoEmail.setText("");
+        campoCpf.setText("");
+        checkNewsletter.setSelected(false);
+        radioMasc.setSelected(false);
+        radioFem.setSelected(false);
+        radioOutro.setSelected(false);
+        comboUf.setSelectedIndex(0);
     }
 }
 

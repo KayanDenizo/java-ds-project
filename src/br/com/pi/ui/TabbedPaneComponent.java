@@ -5,20 +5,32 @@ import javax.swing.*;
 
 public class TabbedPaneComponent {
     private JTabbedPane tabbedPane;
+    private ClientePanel painelClientes;
+    private ProdutoPanel painelProdutos;
 
     public TabbedPaneComponent() {
-        // TODO: Implementar JTabbedPane com abas "Clientes" e "Produtos"
-        tabbedPane =  new JTabbedPane();
+        tabbedPane = new JTabbedPane();
+        tabbedPane.setTabPlacement(JTabbedPane.TOP);
 
-            tabbedPane.setTabPlacement(JTabbedPane.TOP);
+        // Usa os painéis de formulário reais (ClientePanel e ProdutoPanel)
+        painelClientes = new ClientePanel();
+        painelProdutos = new ProdutoPanel();
 
-            JPanel painelClientes = new JPanel();
-            JPanel painelProdutos = new JPanel();
-
-            tabbedPane.addTab("Clientes", painelClientes);
-            tabbedPane.addTab("Produtos", painelProdutos);
+        // Adiciona as abas com os formulários
+        tabbedPane.addTab("Clientes", painelClientes);
+        tabbedPane.addTab("Produtos", painelProdutos);
     }
 
-    public JTabbedPane getTabbedPane() { return tabbedPane; }
+    public JTabbedPane getTabbedPane() {
+        return tabbedPane;
+    }
+
+    public ClientePanel getPainelClientes() {
+        return painelClientes;
+    }
+
+    public ProdutoPanel getPainelProdutos() {
+        return painelProdutos;
+    }
 }
 
