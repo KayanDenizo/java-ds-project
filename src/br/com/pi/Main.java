@@ -1,14 +1,15 @@
 package br.com.pi;
 
-import br.com.pi.ui.MainFrame;
+import br.com.pi.ui.LoginFrame;
 
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            MainFrame frame = new MainFrame();
-            frame.setVisible(true);
+            // Mostra a tela de login primeiro
+            LoginFrame loginFrame = new LoginFrame();
+            loginFrame.setVisible(true);
         });
     }
 }

@@ -7,5 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <!-- Adicione manualmente o JAR do MySQL aqui após colocar na pasta lib -->
+    <!-- <orderEntry type="library" name="mysql-connector-java" level="project" /> -->
   </component>
 </module>
