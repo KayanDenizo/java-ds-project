@@ -9,7 +9,7 @@ Sistema de cadastro de clientes e produtos com interface gráfica Java Swing e b
    - Execute o arquivo `criar_banco.sql`
 
 2. **Executar o projeto:**
-   - Abra `src/br/com/pi/Main.java` no Cursor
+   - Abra `src/br/com/pi/Main.java` no VsCode
    - Clique no botão "Run" (▶) ou pressione F5
 
 ## 🔐 Login Padrão
