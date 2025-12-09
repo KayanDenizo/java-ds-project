@@ -1,6 +1,5 @@
 package br.com.pi.ui.theme;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
@@ -18,38 +17,160 @@ import java.awt.*;
 public class ModernTheme {
 
     // ==========================================
-    // CORES PRINCIPAIS
+    // CONTROLE DE TEMA (CLARO/ESCURO)
     // ==========================================
 
-    // Backgrounds - Glassmorphism
-    public static final Color PRIMARY_BG = new Color(255, 255, 255, 240); // Branco semi-transparente
-    public static final Color SECONDARY_BG = new Color(248, 249, 250, 220); // Cinza claro semi-transparente
-    public static final Color ACCENT_BG = new Color(227, 242, 253, 200); // Azul claro semi-transparente
-    public static final Color PANEL_BG = new Color(255, 255, 255, 180); // Branco muito translúcido para painéis
-    public static final Color GLASS_BG = new Color(255, 255, 255, 150); // Fundo vidro muito translúcido
-    public static final Color OVERLAY_BG = new Color(0, 0, 0, 30); // Overlay escuro sutil
+    private static boolean isDarkMode = false;
 
-    // Cores principais
-    public static final Color PRIMARY_COLOR = Color.decode("#1976D2");
-    public static final Color PRIMARY_HOVER = Color.decode("#1565C0");
-    public static final Color PRIMARY_LIGHT = Color.decode("#BBDEFB");
+    public static boolean isDarkMode() {
+        return isDarkMode;
+    }
 
-    // Cores de sucesso/erro
+    public static void setDarkMode(boolean darkMode) {
+        isDarkMode = darkMode;
+        applyTheme();
+    }
+
+    public static void toggleDarkMode() {
+        isDarkMode = !isDarkMode;
+        applyTheme();
+    }
+
+    private static void applyTheme() {
+        try {
+            if (isDarkMode) {
+                FlatDarculaLaf.setup();
+                System.out.println("🌙 Modo escuro ativado!");
+            } else {
+                FlatIntelliJLaf.setup();
+                System.out.println("☀️ Modo claro ativado!");
+            }
+
+            // Atualizar todas as variáveis de cor estáticas
+            PRIMARY_BG = getPrimaryBg();
+            SECONDARY_BG = getSecondaryBg();
+            ACCENT_BG = getAccentBg();
+            PANEL_BG = getPanelBg();
+            GLASS_BG = getGlassBg();
+            PRIMARY_COLOR = getPrimaryColor();
+            PRIMARY_HOVER = getPrimaryHover();
+            PRIMARY_LIGHT = getPrimaryLight();
+            TEXT_PRIMARY = getTextPrimary();
+            TEXT_SECONDARY = getTextSecondary();
+            TEXT_HINT = getTextHint();
+            BORDER_LIGHT = getBorderLight();
+            BORDER_MEDIUM = getBorderMedium();
+            DIVIDER = getDivider();
+            GLASS_BORDER = getGlassBorder();
+
+            customizeFlatLaf();
+
+            // Atualizar aparência de todas as janelas abertas
+            updateAllWindows();
+
+        } catch (Exception e) {
+            System.err.println("Erro ao alternar tema: " + e.getMessage());
+        }
+    }
+
+    private static void updateAllWindows() {
+        // Atualizar aparência de todas as janelas abertas
+        for (java.awt.Window window : java.awt.Window.getWindows()) {
+            SwingUtilities.updateComponentTreeUI(window);
+            window.repaint();
+        }
+    }
+
+    // ==========================================
+    // CORES PRINCIPAIS (DINÂMICAS POR TEMA)
+    // ==========================================
+
+    // Backgrounds - adaptáveis ao tema
+    public static Color getPrimaryBg() {
+        return isDarkMode ? new Color(45, 45, 45, 240) : new Color(255, 255, 255, 240);
+    }
+
+    public static Color getSecondaryBg() {
+        return isDarkMode ? new Color(60, 60, 60, 220) : new Color(248, 249, 250, 220);
+    }
+
+    public static Color getAccentBg() {
+        return isDarkMode ? new Color(70, 70, 70, 200) : new Color(227, 242, 253, 200);
+    }
+
+    public static Color getPanelBg() {
+        return isDarkMode ? new Color(50, 50, 50, 180) : new Color(255, 255, 255, 180);
+    }
+
+    public static Color getGlassBg() {
+        return isDarkMode ? new Color(60, 60, 60, 150) : new Color(255, 255, 255, 150);
+    }
+
+    // Cores principais - adaptáveis ao tema
+    public static Color getPrimaryColor() {
+        return isDarkMode ? Color.decode("#64B5F6") : Color.decode("#1976D2");
+    }
+
+    public static Color getPrimaryHover() {
+        return isDarkMode ? Color.decode("#42A5F5") : Color.decode("#1565C0");
+    }
+
+    public static Color getPrimaryLight() {
+        return isDarkMode ? Color.decode("#1E88E5") : Color.decode("#BBDEFB");
+    }
+
+    // Textos - adaptáveis ao tema
+    public static Color getTextPrimary() {
+        return isDarkMode ? Color.decode("#FFFFFF") : Color.decode("#212121");
+    }
+
+    public static Color getTextSecondary() {
+        return isDarkMode ? Color.decode("#B0B0B0") : Color.decode("#757575");
+    }
+
+    public static Color getTextHint() {
+        return isDarkMode ? Color.decode("#808080") : Color.decode("#BDBDBD");
+    }
+
+    // Bordas e divisores - adaptáveis ao tema
+    public static Color getBorderLight() {
+        return isDarkMode ? new Color(100, 100, 100, 120) : new Color(224, 224, 224, 120);
+    }
+
+    public static Color getBorderMedium() {
+        return isDarkMode ? new Color(120, 120, 120, 150) : new Color(189, 189, 189, 150);
+    }
+
+    public static Color getDivider() {
+        return isDarkMode ? new Color(80, 80, 80, 100) : new Color(238, 238, 238, 100);
+    }
+
+    public static Color getGlassBorder() {
+        return isDarkMode ? new Color(100, 100, 100, 80) : new Color(255, 255, 255, 80);
+    }
+
+    // Cores fixas (não mudam com o tema)
     public static final Color SUCCESS_COLOR = Color.decode("#4CAF50");
     public static final Color ERROR_COLOR = Color.decode("#F44336");
     public static final Color WARNING_COLOR = Color.decode("#FF9800");
-
-    // Textos
-    public static final Color TEXT_PRIMARY = Color.decode("#212121");
-    public static final Color TEXT_SECONDARY = Color.decode("#757575");
-    public static final Color TEXT_HINT = Color.decode("#BDBDBD");
     public static final Color TEXT_WHITE = Color.decode("#FFFFFF");
 
-    // Bordas e divisores - Glassmorphism
-    public static final Color BORDER_LIGHT = new Color(224, 224, 224, 120); // Cinza claro translúcido
-    public static final Color BORDER_MEDIUM = new Color(189, 189, 189, 150); // Cinza médio semi-translúcido
-    public static final Color DIVIDER = new Color(238, 238, 238, 100); // Divisor muito sutil
-    public static final Color GLASS_BORDER = new Color(255, 255, 255, 80); // Borda vidro sutil
+    // Para compatibilidade com código existente (valores iniciais - serão atualizados)
+    public static Color PRIMARY_BG = getPrimaryBg();
+    public static Color SECONDARY_BG = getSecondaryBg();
+    public static Color ACCENT_BG = getAccentBg();
+    public static Color PANEL_BG = getPanelBg();
+    public static Color GLASS_BG = getGlassBg();
+    public static Color PRIMARY_COLOR = getPrimaryColor();
+    public static Color PRIMARY_HOVER = getPrimaryHover();
+    public static Color PRIMARY_LIGHT = getPrimaryLight();
+    public static Color TEXT_PRIMARY = getTextPrimary();
+    public static Color TEXT_SECONDARY = getTextSecondary();
+    public static Color TEXT_HINT = getTextHint();
+    public static Color BORDER_LIGHT = getBorderLight();
+    public static Color BORDER_MEDIUM = getBorderMedium();
+    public static Color DIVIDER = getDivider();
+    public static Color GLASS_BORDER = getGlassBorder();
 
     // ==========================================
     // FONTES
@@ -265,72 +386,27 @@ public class ModernTheme {
     // ==========================================
 
     public static void setGlobalLookAndFeel() {
-        try {
-            // FlatLaf IntelliJ - tema moderno e profissional
-            FlatIntelliJLaf.setup();
-            // FlatDarculaLaf.setup(); // ← DESCOMENTE esta linha para ver o tema DARK!
-            customizeFlatLaf();
-            System.out.println("✅ FlatLaf IntelliJ carregado com sucesso!");
-            System.out.println("🎨 Tema moderno ativado - veja a diferença na interface!");
-            System.out.println("💡 Para ver mudança dramática: descomente FlatDarculaLaf.setup()");
-        } catch (Exception e) {
-            try {
-                // Fallback para FlatLaf Light
-                FlatLightLaf.setup();
-                customizeFlatLaf();
-                System.out.println("✅ FlatLaf Light carregado (fallback)");
-            } catch (Exception e2) {
-                try {
-                    // Fallback para Nimbus
-                    for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                        if ("Nimbus".equals(info.getName())) {
-                            UIManager.setLookAndFeel(info.getClassName());
-                            break;
-                        }
-                    }
-                    System.out.println("⚠️ Usando Nimbus (FlatLaf não disponível)");
-                } catch (Exception e3) {
-                    // Último fallback - usar o padrão do sistema
-                    System.err.println("❌ Usando Look and Feel padrão do sistema");
-                }
-            }
-        }
+        // Aplicar tema inicial (claro por padrão)
+        applyTheme();
     }
 
     private static void customizeFlatLaf() {
-        // Customizações específicas para FlatLaf + Glassmorphism
+        // Customizações mínimas para FlatLaf - evitando conflitos visuais
         try {
-            // Bordas arredondadas consistentes
+            // Bordas arredondadas básicas
             UIManager.put("Button.arc", BORDER_RADIUS_MEDIUM);
             UIManager.put("Component.arc", BORDER_RADIUS_MEDIUM);
             UIManager.put("TextComponent.arc", BORDER_RADIUS_SMALL);
-            UIManager.put("ScrollBar.arc", BORDER_RADIUS_MEDIUM);
 
-            // Cores que combinam com glassmorphism - mais perceptíveis
-            UIManager.put("Panel.background", new Color(250, 250, 250, 220)); // Fundo mais claro
-            UIManager.put("OptionPane.background", GLASS_BG);
-
-            // Indicador visual de FlatLaf ativo (borda sutil azul)
-            UIManager.put("Panel.border", BorderFactory.createLineBorder(new Color(33, 150, 243, 50), 1));
-
-            // Melhorar aparência dos botões - mais vibrantes com FlatLaf
-            UIManager.put("Button.focusWidth", 2);
-            UIManager.put("Button.focusColor", PRIMARY_COLOR);
-            UIManager.put("Button.default.focusColor", new Color(76, 175, 80)); // Verde para confirmação
-
-            // Scrollbar mais moderno (flat)
-            UIManager.put("ScrollBar.thumbArc", BORDER_RADIUS_MEDIUM);
-            UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
-
-            // Melhorar tabelas com cores mais vibrantes
-            UIManager.put("Table.selectionBackground", new Color(33, 150, 243, 120)); // Azul mais visível
+            // Cores básicas - mantendo FlatLaf padrão mas com nossas cores
+            UIManager.put("Table.selectionBackground", PRIMARY_LIGHT);
             UIManager.put("Table.selectionForeground", TEXT_PRIMARY);
 
-            // Componentes de foco mais visíveis
-            UIManager.put("Component.focusWidth", 2);
+            // Foco sutil
+            UIManager.put("Component.focusWidth", 1);
             UIManager.put("Component.focusColor", PRIMARY_COLOR);
 
-            // Melhorar aparência geral
+            // TabbedPane
             UIManager.put("TabbedPane.selectedBackground", PRIMARY_LIGHT);
             UIManager.put("TabbedPane.selectedForeground", TEXT_WHITE);
 

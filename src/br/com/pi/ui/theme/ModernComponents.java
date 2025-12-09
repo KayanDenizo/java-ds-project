@@ -37,15 +37,15 @@ public class ModernComponents {
             setOpaque(false); // Importante para glassmorphism
 
             if (isPrimary) {
-                normalColor = new Color(25, 118, 210, 200); // Azul semi-transparente
-                hoverColor = new Color(21, 101, 192, 220); // Azul mais opaco no hover
-                pressedColor = new Color(13, 71, 161, 240); // Azul ainda mais opaco quando pressionado
+                normalColor = ModernTheme.getPrimaryColor();
+                hoverColor = ModernTheme.getPrimaryHover();
+                pressedColor = ModernTheme.getPrimaryLight();
                 setForeground(ModernTheme.TEXT_WHITE);
             } else {
-                normalColor = new Color(248, 249, 250, 180); // Fundo semi-transparente
-                hoverColor = new Color(224, 224, 224, 200); // Cinza mais opaco no hover
-                pressedColor = new Color(189, 189, 189, 220); // Cinza ainda mais opaco quando pressionado
-                setForeground(ModernTheme.TEXT_PRIMARY);
+                normalColor = ModernTheme.getSecondaryBg();
+                hoverColor = ModernTheme.getAccentBg();
+                pressedColor = ModernTheme.getPrimaryBg();
+                setForeground(ModernTheme.getTextPrimary());
             }
 
             setBackground(normalColor);
@@ -85,7 +85,7 @@ public class ModernComponents {
                 normalColor = ModernTheme.SECONDARY_BG;
                 hoverColor = Color.decode("#E0E0E0");
                 pressedColor = Color.decode("#D0D0D0");
-                setForeground(ModernTheme.TEXT_PRIMARY);
+                setForeground(ModernTheme.getTextPrimary());
             }
             setBackground(normalColor);
         }
@@ -118,7 +118,7 @@ public class ModernComponents {
 
             // Manter aparência customizada para glassmorphism
 
-            setBackground(new Color(255, 255, 255, 220)); // Fundo semi-transparente
+            setBackground(ModernTheme.getPrimaryBg()); // Fundo opaco para evitar problemas visuais
             setForeground(ModernTheme.TEXT_PRIMARY);
             setOpaque(true);
         }
@@ -176,7 +176,7 @@ public class ModernComponents {
                 ModernTheme.createGlassBorder(ModernTheme.BORDER_RADIUS_SMALL),
                 BorderFactory.createEmptyBorder(4, 8, 4, 8)
             ));
-            setBackground(new Color(255, 255, 255, 220)); // Fundo semi-transparente
+            setBackground(ModernTheme.getPrimaryBg()); // Fundo opaco para evitar problemas visuais
             setForeground(ModernTheme.TEXT_PRIMARY);
             setOpaque(true);
         }
@@ -210,9 +210,9 @@ public class ModernComponents {
         }
 
         private void initPanel() {
-            setBackground(ModernTheme.GLASS_BG); // Fundo vidro translúcido
+            setBackground(ModernTheme.getPanelBg()); // Fundo dinâmico baseado no tema
             setBorder(ModernTheme.createGlassPanelBorder());
-            setOpaque(false); // Importante para glassmorphism
+            setOpaque(true); // Opaco para evitar sobreposições visuais
         }
 
         @Override
@@ -221,24 +221,14 @@ public class ModernComponents {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             if (hasShadow) {
-                // Desenhar sombra glassmorphism (mais sutil)
-                g2.setColor(new Color(0, 0, 0, 15));
-                g2.fillRoundRect(3, 3, getWidth() - 3, getHeight() - 3,
+                // Desenhar sombra sutil
+                g2.setColor(new Color(0, 0, 0, 10));
+                g2.fillRoundRect(2, 2, getWidth() - 2, getHeight() - 2,
                                ModernTheme.BORDER_RADIUS_MEDIUM, ModernTheme.BORDER_RADIUS_MEDIUM);
             }
 
-            // Desenhar background glass com gradiente sutil
-            if (getBackground().getAlpha() < 255) {
-                // Gradiente vertical sutil para efeito glass
-                GradientPaint gradient = new GradientPaint(
-                    0, 0, new Color(getBackground().getRed(), getBackground().getGreen(), getBackground().getBlue(), 180),
-                    0, getHeight(), new Color(getBackground().getRed(), getBackground().getGreen(), getBackground().getBlue(), 220)
-                );
-                g2.setPaint(gradient);
-            } else {
-                g2.setColor(getBackground());
-            }
-
+            // Background simples e opaco
+            g2.setColor(getBackground());
             g2.fillRoundRect(0, 0, getWidth() - 2, getHeight() - 2,
                            ModernTheme.BORDER_RADIUS_MEDIUM, ModernTheme.BORDER_RADIUS_MEDIUM);
 

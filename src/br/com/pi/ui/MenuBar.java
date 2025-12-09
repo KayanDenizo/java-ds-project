@@ -94,7 +94,7 @@ public class MenuBar extends JMenuBar {
         menuVisualizar.add(itemModoEscuro);
 
         // ========== MENU AJUDA ==========
-        itemSobre = criarMenuItem("Sobre", "Informações sobre o sistema", KeyEvent.VK_S, 0);
+        itemSobre = criarMenuItem("Sobre", "Informações sobre o sistema", 0, 0);
         itemAjuda = criarMenuItem("Ajuda", "Ajuda e documentação", KeyEvent.VK_F1, 0);
         itemContato = criarMenuItem("Contato", "Informações de contato", KeyEvent.VK_C, KeyEvent.ALT_DOWN_MASK);
 
@@ -242,14 +242,14 @@ public class MenuBar extends JMenuBar {
     }
 
     private void alternarModoEscuro() {
-        boolean modoEscuro = itemModoEscuro.isSelected();
-        if (modoEscuro) {
-            JOptionPane.showMessageDialog(
-                this,
-                "Modo escuro será implementado em futuras versões! 🌙",
-                "Em breve",
-                JOptionPane.INFORMATION_MESSAGE
-            );
+        ModernTheme.toggleDarkMode();
+
+        // Atualizar o texto do checkbox
+        if (ModernTheme.isDarkMode()) {
+            itemModoEscuro.setText("Modo Claro");
+            itemModoEscuro.setSelected(true);
+        } else {
+            itemModoEscuro.setText("Modo Escuro");
             itemModoEscuro.setSelected(false);
         }
     }
