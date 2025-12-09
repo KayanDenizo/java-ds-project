@@ -125,13 +125,13 @@ public class ClienteTablePanel extends JPanel {
 
         // Painel esquerdo com contador
         JPanel contadorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        contadorPanel.setOpaque(false);
+        contadorPanel.setOpaque(true);
         contadorPanel.add(criarLabelContador());
         panel.add(contadorPanel, BorderLayout.WEST);
 
         // Painel direito com botões
         JPanel botoesPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, ModernTheme.PADDING_MEDIUM, 0));
-        botoesPanel.setOpaque(false);
+        botoesPanel.setOpaque(true);
 
         btnAdicionar = ModernComponents.createPrimaryButton("➕ Adicionar Cliente");
         btnAtualizar = ModernComponents.createSecondaryButton("🔄 Atualizar");
@@ -247,30 +247,30 @@ public class ClienteTablePanel extends JPanel {
         // Executa a busca em uma thread separada para não travar a interface
         SwingUtilities.invokeLater(() -> {
             try {
-                // Buscar cliente por ID
-                List<Cliente> clientes = clienteDAO.listar();
+        // Buscar cliente por ID
+        List<Cliente> clientes = clienteDAO.listar();
                 final Cliente clienteParaEditar;
 
                 Cliente temp = null;
-                for (Cliente c : clientes) {
-                    if (c.getId() == id) {
+        for (Cliente c : clientes) {
+            if (c.getId() == id) {
                         temp = c;
-                        break;
-                    }
-                }
+                break;
+            }
+        }
                 clienteParaEditar = temp;
 
-                if (clienteParaEditar != null) {
+        if (clienteParaEditar != null) {
                     SwingUtilities.invokeLater(() -> {
-                        ClienteEditDialog dialog = new ClienteEditDialog(
-                            SwingUtilities.getWindowAncestor(this),
-                            clienteParaEditar,
-                            clienteDAO
-                        );
-                        dialog.setVisible(true);
+            ClienteEditDialog dialog = new ClienteEditDialog(
+                SwingUtilities.getWindowAncestor(this),
+                clienteParaEditar,
+                clienteDAO
+            );
+            dialog.setVisible(true);
 
-                        // Recarregar dados após edição
-                        carregarDados();
+            // Recarregar dados após edição
+            carregarDados();
                     });
                 }
             } catch (Exception e) {
@@ -299,24 +299,24 @@ public class ClienteTablePanel extends JPanel {
             // Executa a operação em uma thread separada para não travar a interface
             SwingUtilities.invokeLater(() -> {
                 try {
-                    if (clienteDAO.excluir(id)) {
+            if (clienteDAO.excluir(id)) {
                         SwingUtilities.invokeLater(() -> {
-                            JOptionPane.showMessageDialog(
-                                this,
-                                "Cliente excluído com sucesso!",
-                                "Sucesso",
-                                JOptionPane.INFORMATION_MESSAGE
-                            );
-                            carregarDados();
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Cliente excluído com sucesso!",
+                    "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+                carregarDados();
                         });
-                    } else {
+            } else {
                         SwingUtilities.invokeLater(() -> {
-                            JOptionPane.showMessageDialog(
-                                this,
-                                "Erro ao excluir cliente.",
-                                "Erro",
-                                JOptionPane.ERROR_MESSAGE
-                            );
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Erro ao excluir cliente.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE
+                );
                         });
                     }
                 } catch (Exception e) {

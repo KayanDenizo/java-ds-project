@@ -175,7 +175,7 @@ public class LoginFrame extends JFrame {
             if (adminDAO == null) {
                 adminDAO = new AdminDAO();
             }
-
+            
             if (adminDAO.validarLogin(id, senha)) {
                 // Login válido - abrir MainFrame
                 this.dispose();

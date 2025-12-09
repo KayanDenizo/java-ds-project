@@ -85,15 +85,9 @@ public class ModernTheme {
     }
 
     private static void updateAllComponents(java.awt.Component component) {
-        // Atualizar cores dinâmicas em todos os componentes
+        // Simples atualização de aparência
         component.revalidate();
         component.repaint();
-
-        // Forçar atualização de propriedades visuais
-        if (component instanceof javax.swing.JComponent) {
-            javax.swing.JComponent jComponent = (javax.swing.JComponent) component;
-            jComponent.setOpaque(jComponent.isOpaque()); // Forçar reavaliação
-        }
 
         if (component instanceof java.awt.Container) {
             java.awt.Container container = (java.awt.Container) component;
@@ -346,6 +340,9 @@ public class ModernTheme {
     }
 
     public static void styleLabel(JLabel label, boolean isTitle) {
+        // Garantir que labels sejam completamente opacos para evitar problemas visuais
+        label.setOpaque(false); // Labels são transparentes por padrão, mas vamos garantir
+
         if (isTitle) {
             label.setFont(FONT_SUBTITLE);
             label.setForeground(TEXT_PRIMARY);

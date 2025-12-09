@@ -50,7 +50,7 @@ public class ProdutoTablePanel extends JPanel {
 
     private JPanel criarBarraSuperior() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setOpaque(false);
+        panel.setOpaque(true);
 
         // Título e contador
         ModernComponents.ModernLabel tituloLabel = new ModernComponents.ModernLabel("Produtos Cadastrados", true);
@@ -60,7 +60,7 @@ public class ProdutoTablePanel extends JPanel {
 
         // Painel de filtro
         JPanel filtroPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        filtroPanel.setOpaque(false);
+        filtroPanel.setOpaque(true);
 
         ModernComponents.ModernLabel filtroLabel = new ModernComponents.ModernLabel("Filtrar:", false);
         campoFiltro = new JTextField(20);
@@ -78,7 +78,7 @@ public class ProdutoTablePanel extends JPanel {
 
         // Painel esquerdo com contador
         JPanel contadorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        contadorPanel.setOpaque(false);
+        contadorPanel.setOpaque(true);
         contadorPanel.add(criarLabelContador());
         panel.add(contadorPanel, BorderLayout.WEST);
 
@@ -124,7 +124,7 @@ public class ProdutoTablePanel extends JPanel {
 
     private JPanel criarBarraInferior() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        panel.setOpaque(false);
+        panel.setOpaque(true);
 
         btnAdicionar = ModernComponents.createPrimaryButton("Adicionar");
         btnEditar = ModernComponents.createSecondaryButton("Editar");

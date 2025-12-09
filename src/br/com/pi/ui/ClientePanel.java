@@ -42,6 +42,7 @@ public class ClientePanel extends JPanel {
         gbc.insets = new Insets(ModernTheme.PADDING_MEDIUM, ModernTheme.PADDING_MEDIUM,
                                ModernTheme.PADDING_MEDIUM, ModernTheme.PADDING_MEDIUM);
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.WEST; // Alinhar à esquerda
 
         // Título da seção
         ModernComponents.ModernLabel tituloLabel = new ModernComponents.ModernLabel("Dados do Cliente", true);

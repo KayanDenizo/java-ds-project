@@ -34,7 +34,7 @@ public class ModernComponents {
             setCursor(new Cursor(Cursor.HAND_CURSOR));
 
             // FlatLaf + Glassmorphism: manter aparência customizada
-            setOpaque(false); // Importante para glassmorphism
+            setOpaque(true); // Opaco para evitar problemas visuais de sobreposição
 
             if (isPrimary) {
                 normalColor = ModernTheme.getPrimaryColor();
@@ -202,17 +202,11 @@ public class ModernComponents {
         }
 
         private void initPanel() {
-            setBackground(ModernTheme.getPanelBg()); // Fundo dinâmico baseado no tema
-            setBorder(ModernTheme.createGlassPanelBorder());
-            setOpaque(false); // Transparente para permitir glassmorphism mas sem problemas visuais
+            // Usar apenas configurações básicas para evitar problemas visuais
+            setOpaque(true);
         }
 
-        @Override
-        protected void paintComponent(Graphics g) {
-            // Não sobrescrever paintComponent para evitar problemas com filhos
-            // Deixar o JPanel padrão lidar com o background e transparência
-            super.paintComponent(g);
-        }
+        // Removido paintComponent customizado para evitar problemas visuais
     }
 
     // ==========================================

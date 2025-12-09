@@ -32,11 +32,18 @@ public class TabbedPaneComponent {
         tabbedPane.setBackground(ModernTheme.PRIMARY_BG);
         tabbedPane.setBorder(BorderFactory.createEmptyBorder());
 
-        // Inicializar painéis
+        // Inicializar painéis com configurações robustas
         painelClientes = new ClientePanel();
+        painelClientes.setName("clientePanel"); // Identificador único
+
         painelProdutos = new ProdutoPanel();
+        painelProdutos.setName("produtoPanel"); // Identificador único
+
         painelClientesTabela = new ClienteTablePanel();
+        painelClientesTabela.setName("clienteTablePanel"); // Identificador único
+
         painelProdutosTabela = new ProdutoTablePanel();
+        painelProdutosTabela.setName("produtoTablePanel"); // Identificador único
 
         // Criar sub-abas para registros com design moderno
         JTabbedPane registrosTab = createRegistrosTab();
@@ -50,6 +57,19 @@ public class TabbedPaneComponent {
         tabbedPane.setToolTipTextAt(0, "Cadastrar novos clientes no sistema");
         tabbedPane.setToolTipTextAt(1, "Cadastrar novos produtos no sistema");
         tabbedPane.setToolTipTextAt(2, "Visualizar, editar e excluir registros");
+
+        // Adicionar listener para garantir re-renderização correta ao trocar abas
+        tabbedPane.addChangeListener(e -> {
+            // Forçar revalidação e repaint do painel atual para evitar problemas visuais
+            Component selectedComponent = tabbedPane.getSelectedComponent();
+            if (selectedComponent != null) {
+                selectedComponent.revalidate();
+                selectedComponent.repaint();
+
+                // Forçar atualização de toda a hierarquia para limpar artefatos visuais
+                forceRepaintHierarchy(selectedComponent);
+            }
+        });
     }
 
     private JTabbedPane createRegistrosTab() {
@@ -72,7 +92,38 @@ public class TabbedPaneComponent {
         registrosTab.setToolTipTextAt(0, "Gerenciar registros de clientes");
         registrosTab.setToolTipTextAt(1, "Gerenciar registros de produtos");
 
+        // Adicionar listener para sub-abas também
+        registrosTab.addChangeListener(e -> {
+            Component selectedComponent = registrosTab.getSelectedComponent();
+            if (selectedComponent != null) {
+                selectedComponent.revalidate();
+                selectedComponent.repaint();
+            }
+        });
+
         return registrosTab;
+    }
+
+    // Método para forçar repaint completo da hierarquia de componentes
+    private void forceRepaintHierarchy(Component component) {
+        // Limpar qualquer cache visual e forçar re-renderização
+        component.revalidate();
+        component.repaint();
+
+        // Recursivamente atualizar todos os filhos
+        if (component instanceof java.awt.Container) {
+            java.awt.Container container = (java.awt.Container) component;
+            for (int i = 0; i < container.getComponentCount(); i++) {
+                Component child = container.getComponent(i);
+                // Forçar atualização do componente filho
+                if (child instanceof javax.swing.JComponent) {
+                    javax.swing.JComponent jChild = (javax.swing.JComponent) child;
+                    jChild.revalidate();
+                    jChild.repaint();
+                }
+                forceRepaintHierarchy(child);
+            }
+        }
     }
 
     // UI customizada para as abas

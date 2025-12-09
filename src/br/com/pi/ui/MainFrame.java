@@ -23,17 +23,9 @@ public class MainFrame extends JFrame {
         setUndecorated(true); // Remove bordas do sistema para design customizado
         setLayout(new BorderLayout());
 
-        // Barra superior moderna
-        topBar = createTopBar();
-        add(topBar, BorderLayout.NORTH);
-
-        // Barra de menu
-        menuBar = new MenuBar();
-        JPanel menuPanel = new JPanel(new BorderLayout());
-        menuPanel.setBackground(ModernTheme.SECONDARY_BG);
-        menuPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, ModernTheme.BORDER_LIGHT));
-        menuPanel.add(menuBar, BorderLayout.CENTER);
-        add(menuPanel, BorderLayout.NORTH);
+        // Barra superior com menu integrado
+        JPanel headerPanel = createHeaderPanel();
+        add(headerPanel, BorderLayout.NORTH);
 
         // Conteúdo principal
         tabbedPaneComponent = new TabbedPaneComponent();
@@ -42,6 +34,24 @@ public class MainFrame extends JFrame {
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         contentPanel.add(tabbedPaneComponent.getTabbedPane(), BorderLayout.CENTER);
         add(contentPanel, BorderLayout.CENTER);
+    }
+
+    private JPanel createHeaderPanel() {
+        JPanel header = new JPanel(new BorderLayout());
+
+        // Barra superior moderna (título e botões de janela)
+        topBar = createTopBar();
+        header.add(topBar, BorderLayout.NORTH);
+
+        // Barra de menu
+        menuBar = new MenuBar();
+        JPanel menuPanel = new JPanel(new BorderLayout());
+        menuPanel.setBackground(ModernTheme.SECONDARY_BG);
+        menuPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, ModernTheme.BORDER_LIGHT));
+        menuPanel.add(menuBar, BorderLayout.CENTER);
+        header.add(menuPanel, BorderLayout.SOUTH);
+
+        return header;
     }
 
     private JPanel createTopBar() {
