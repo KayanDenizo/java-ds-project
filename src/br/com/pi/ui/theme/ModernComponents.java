@@ -30,7 +30,7 @@ public class ModernComponents {
             setFont(ModernTheme.FONT_BUTTON);
             setPreferredSize(new Dimension(120, ModernTheme.BUTTON_HEIGHT));
             setBorder(ModernTheme.createGlassBorder(ModernTheme.BORDER_RADIUS_MEDIUM));
-            setFocusPainted(false);
+            setFocusPainted(true); // Mostrar foco para melhor UX
             setCursor(new Cursor(Cursor.HAND_CURSOR));
 
             // FlatLaf + Glassmorphism: manter aparência customizada
@@ -144,13 +144,17 @@ public class ModernComponents {
         }
 
         public void focusGained(java.awt.event.FocusEvent e) {
-            // Não faz nada - o placeholder é apenas visual
-            setForeground(ModernTheme.TEXT_PRIMARY);
+            // Placeholder visual - apenas muda a cor do texto
+            setForeground(ModernTheme.getTextPrimary());
+            revalidate();
+            repaint();
         }
 
         public void focusLost(java.awt.event.FocusEvent e) {
-            // Não faz nada - o placeholder é apenas visual
-            setForeground(ModernTheme.TEXT_PRIMARY);
+            // Placeholder visual - apenas muda a cor do texto
+            setForeground(ModernTheme.getTextPrimary());
+            revalidate();
+            repaint();
         }
     }
 
@@ -187,14 +191,8 @@ public class ModernComponents {
     // ==========================================
 
     public static class ModernPanel extends JPanel {
-        private boolean hasShadow = false;
 
         public ModernPanel() {
-            initPanel();
-        }
-
-        public ModernPanel(boolean hasShadow) {
-            this.hasShadow = hasShadow;
             initPanel();
         }
 
@@ -203,36 +201,16 @@ public class ModernComponents {
             initPanel();
         }
 
-        public ModernPanel(LayoutManager layout, boolean hasShadow) {
-            super(layout);
-            this.hasShadow = hasShadow;
-            initPanel();
-        }
-
         private void initPanel() {
             setBackground(ModernTheme.getPanelBg()); // Fundo dinâmico baseado no tema
             setBorder(ModernTheme.createGlassPanelBorder());
-            setOpaque(true); // Opaco para evitar sobreposições visuais
+            setOpaque(false); // Transparente para permitir glassmorphism mas sem problemas visuais
         }
 
         @Override
         protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-            if (hasShadow) {
-                // Desenhar sombra sutil
-                g2.setColor(new Color(0, 0, 0, 10));
-                g2.fillRoundRect(2, 2, getWidth() - 2, getHeight() - 2,
-                               ModernTheme.BORDER_RADIUS_MEDIUM, ModernTheme.BORDER_RADIUS_MEDIUM);
-            }
-
-            // Background simples e opaco
-            g2.setColor(getBackground());
-            g2.fillRoundRect(0, 0, getWidth() - 2, getHeight() - 2,
-                           ModernTheme.BORDER_RADIUS_MEDIUM, ModernTheme.BORDER_RADIUS_MEDIUM);
-
-            g2.dispose();
+            // Não sobrescrever paintComponent para evitar problemas com filhos
+            // Deixar o JPanel padrão lidar com o background e transparência
             super.paintComponent(g);
         }
     }
@@ -302,7 +280,7 @@ public class ModernComponents {
     }
 
     public static ModernPanel createPanelWithShadow() {
-        return new ModernPanel(true);
+        return new ModernPanel();
     }
 
     public static ModernLabel createTitleLabel(String text) {

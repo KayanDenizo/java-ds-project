@@ -78,7 +78,34 @@ public class ModernTheme {
         for (java.awt.Window window : java.awt.Window.getWindows()) {
             SwingUtilities.updateComponentTreeUI(window);
             window.repaint();
+
+            // Forçar atualização de todos os componentes filhos
+            updateAllComponents(window);
         }
+    }
+
+    private static void updateAllComponents(java.awt.Component component) {
+        // Atualizar cores dinâmicas em todos os componentes
+        component.revalidate();
+        component.repaint();
+
+        // Forçar atualização de propriedades visuais
+        if (component instanceof javax.swing.JComponent) {
+            javax.swing.JComponent jComponent = (javax.swing.JComponent) component;
+            jComponent.setOpaque(jComponent.isOpaque()); // Forçar reavaliação
+        }
+
+        if (component instanceof java.awt.Container) {
+            java.awt.Container container = (java.awt.Container) component;
+            for (int i = 0; i < container.getComponentCount(); i++) {
+                updateAllComponents(container.getComponent(i));
+            }
+        }
+    }
+
+    // Método público para forçar atualização de cores em componentes específicos
+    public static void refreshComponentColors(java.awt.Component component) {
+        updateAllComponents(component);
     }
 
     // ==========================================

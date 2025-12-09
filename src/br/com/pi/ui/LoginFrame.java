@@ -14,8 +14,6 @@ public class LoginFrame extends JFrame {
     private AdminDAO adminDAO;
 
     public LoginFrame() {
-        // Inicializar adminDAO apenas quando necessário para evitar travamentos na inicialização
-        // adminDAO = new AdminDAO();
         initComponents();
         setupFrame();
     }
@@ -38,7 +36,7 @@ public class LoginFrame extends JFrame {
         panel.setBackground(ModernTheme.PRIMARY_BG);
 
         // Painel de login centralizado
-        ModernComponents.ModernPanel loginPanel = new ModernComponents.ModernPanel(true);
+        ModernComponents.ModernPanel loginPanel = new ModernComponents.ModernPanel();
         loginPanel.setBounds(50, 80, 300, 340);
         loginPanel.setLayout(null);
 
