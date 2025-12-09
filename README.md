@@ -38,3 +38,4 @@ src/br/com/pi/
 
 - Driver MySQL: `lib/mysql-connector-j-9.5.0.jar`
 - Java Swing (incluído no JDK)
+
