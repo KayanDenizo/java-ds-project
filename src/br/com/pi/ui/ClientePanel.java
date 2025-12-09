@@ -1,14 +1,16 @@
 // Kayan
 package br.com.pi.ui;
 
+import br.com.pi.ui.theme.ModernComponents;
+import br.com.pi.ui.theme.ModernTheme;
+
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class ClientePanel extends JPanel {
-    private JTextField campoNome;
-    private JTextField campoEmail;
-    private JTextField campoCpf;
+    private ModernComponents.ModernTextField campoNome;
+    private ModernComponents.ModernTextField campoEmail;
+    private ModernComponents.ModernTextField campoCpf;
     private JCheckBox checkNewsletter;
     private JRadioButton radioMasc;
     private JRadioButton radioFem;
@@ -16,91 +18,161 @@ public class ClientePanel extends JPanel {
     private JComboBox<String> comboUf;
 
     public ClientePanel() {
-        setLayout(new BorderLayout(8, 8));
+        initComponents();
+    }
 
-        JPanel painelFormulario = criarPainelFormulario();
+    private void initComponents() {
+        setLayout(new BorderLayout(ModernTheme.PADDING_MEDIUM, ModernTheme.PADDING_MEDIUM));
+        setBackground(ModernTheme.PRIMARY_BG);
+        setBorder(BorderFactory.createEmptyBorder(ModernTheme.PADDING_LARGE, ModernTheme.PADDING_LARGE,
+                                                ModernTheme.PADDING_LARGE, ModernTheme.PADDING_LARGE));
+
+        // Painel principal com formulário
+        ModernComponents.ModernPanel painelFormulario = criarPainelFormulario();
         ButtonPanel painelBotoes = new ButtonPanel(this);
 
         add(painelFormulario, BorderLayout.CENTER);
         add(painelBotoes, BorderLayout.SOUTH);
     }
 
-    private JPanel criarPainelFormulario() {
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBorder(new TitledBorder("Dados do Cliente"));
+    private ModernComponents.ModernPanel criarPainelFormulario() {
+        ModernComponents.ModernPanel panel = new ModernComponents.ModernPanel();
+        panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(6, 6, 6, 6);
+        gbc.insets = new Insets(ModernTheme.PADDING_MEDIUM, ModernTheme.PADDING_MEDIUM,
+                               ModernTheme.PADDING_MEDIUM, ModernTheme.PADDING_MEDIUM);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Nome
-        gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0.0;
-        panel.add(new JLabel("Nome:"), gbc);
-        campoNome = new JTextField();
-        gbc.gridx = 1; gbc.gridy = 0; gbc.weightx = 1.0;
+        // Título da seção
+        ModernComponents.ModernLabel tituloLabel = new ModernComponents.ModernLabel("Dados do Cliente", true);
+        tituloLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        tituloLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, ModernTheme.PADDING_LARGE, 0));
+        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2; gbc.weightx = 1.0;
+        panel.add(tituloLabel, gbc);
+
+        // Reset para próximos componentes
+        gbc.gridwidth = 1;
+        gbc.gridy = 1;
+
+        // Campo Nome
+        ModernComponents.ModernLabel nomeLabel = new ModernComponents.ModernLabel("Nome Completo");
+        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0.0;
+        panel.add(nomeLabel, gbc);
+
+        campoNome = ModernComponents.createTextField(30);
+        campoNome.setPlaceholder("Digite o nome completo");
+        gbc.gridx = 1; gbc.gridy = 1; gbc.weightx = 1.0;
         panel.add(campoNome, gbc);
 
-        // Email
-        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0.0;
-        panel.add(new JLabel("Email:"), gbc);
-        campoEmail = new JTextField();
-        gbc.gridx = 1; gbc.gridy = 1; gbc.weightx = 1.0;
+        // Campo Email
+        ModernComponents.ModernLabel emailLabel = new ModernComponents.ModernLabel("E-mail");
+        gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0.0;
+        panel.add(emailLabel, gbc);
+
+        campoEmail = ModernComponents.createTextField(30);
+        campoEmail.setPlaceholder("exemplo@email.com");
+        gbc.gridx = 1; gbc.gridy = 2; gbc.weightx = 1.0;
         panel.add(campoEmail, gbc);
 
-        // CPF
-        gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0.0;
-        panel.add(new JLabel("CPF:"), gbc);
-        campoCpf = new JTextField();
-        gbc.gridx = 1; gbc.gridy = 2; gbc.weightx = 1.0;
+        // Campo CPF
+        ModernComponents.ModernLabel cpfLabel = new ModernComponents.ModernLabel("CPF");
+        gbc.gridx = 0; gbc.gridy = 3; gbc.weightx = 0.0;
+        panel.add(cpfLabel, gbc);
+
+        campoCpf = ModernComponents.createTextField(15);
+        campoCpf.setPlaceholder("000.000.000-00");
+        gbc.gridx = 1; gbc.gridy = 3; gbc.weightx = 1.0;
         panel.add(campoCpf, gbc);
 
-        // Sexo (radio buttons)
-        gbc.gridx = 0; gbc.gridy = 3; gbc.weightx = 0.0;
-        panel.add(new JLabel("Sexo:"), gbc);
-        JPanel sexoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
-        radioMasc = new JRadioButton("Masculino");
-        radioFem = new JRadioButton("Feminino");
-        radioOutro = new JRadioButton("Outro");
-        ButtonGroup grupoSexo = new ButtonGroup();
-        grupoSexo.add(radioMasc);
-        grupoSexo.add(radioFem);
-        grupoSexo.add(radioOutro);
-        sexoPanel.add(radioMasc);
-        sexoPanel.add(radioFem);
-        sexoPanel.add(radioOutro);
-        gbc.gridx = 1; gbc.gridy = 3; gbc.weightx = 1.0;
+        // Sexo - Radio Buttons
+        ModernComponents.ModernLabel sexoLabel = new ModernComponents.ModernLabel("Gênero");
+        gbc.gridx = 0; gbc.gridy = 4; gbc.weightx = 0.0;
+        panel.add(sexoLabel, gbc);
+
+        JPanel sexoPanel = criarPainelSexo();
+        gbc.gridx = 1; gbc.gridy = 4; gbc.weightx = 1.0;
         panel.add(sexoPanel, gbc);
 
-        // UF (combo box)
-        gbc.gridx = 0; gbc.gridy = 4; gbc.weightx = 0.0;
-        panel.add(new JLabel("UF:"), gbc);
-        comboUf = new JComboBox<>(new String[]{
-                "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA",
-                "MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN",
-                "RS","RO","RR","SC","SP","SE","TO"
-        });
-        gbc.gridx = 1; gbc.gridy = 4; gbc.weightx = 1.0;
+        // UF - ComboBox
+        ModernComponents.ModernLabel ufLabel = new ModernComponents.ModernLabel("Estado (UF)");
+        gbc.gridx = 0; gbc.gridy = 5; gbc.weightx = 0.0;
+        panel.add(ufLabel, gbc);
+
+        comboUf = criarComboUf();
+        gbc.gridx = 1; gbc.gridy = 5; gbc.weightx = 1.0;
         panel.add(comboUf, gbc);
 
-        // Newsletter (checkbox)
-        gbc.gridx = 0; gbc.gridy = 5; gbc.weightx = 0.0;
-        panel.add(new JLabel("Receber newsletter:"), gbc);
-        checkNewsletter = new JCheckBox("Sim");
-        gbc.gridx = 1; gbc.gridy = 5; gbc.weightx = 1.0;
+        // Newsletter - Checkbox
+        gbc.gridx = 0; gbc.gridy = 6; gbc.weightx = 0.0;
+        panel.add(new JPanel(), gbc); // Espaçador
+
+        checkNewsletter = criarCheckNewsletter();
+        gbc.gridx = 1; gbc.gridy = 6; gbc.weightx = 1.0;
         panel.add(checkNewsletter, gbc);
 
         return panel;
     }
 
+    private JPanel criarPainelSexo() {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, ModernTheme.PADDING_MEDIUM, 0));
+        panel.setOpaque(false);
+
+        radioMasc = new JRadioButton("Masculino");
+        radioFem = new JRadioButton("Feminino");
+        radioOutro = new JRadioButton("Outro");
+
+        // Estilizar radio buttons
+        radioMasc.setFont(ModernTheme.FONT_REGULAR);
+        radioFem.setFont(ModernTheme.FONT_REGULAR);
+        radioOutro.setFont(ModernTheme.FONT_REGULAR);
+
+        ButtonGroup grupoSexo = new ButtonGroup();
+        grupoSexo.add(radioMasc);
+        grupoSexo.add(radioFem);
+        grupoSexo.add(radioOutro);
+
+        panel.add(radioMasc);
+        panel.add(radioFem);
+        panel.add(radioOutro);
+
+        return panel;
+    }
+
+    private JComboBox<String> criarComboUf() {
+        JComboBox<String> combo = new JComboBox<>(new String[]{
+            "Selecione...", "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA",
+            "MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN",
+            "RS","RO","RR","SC","SP","SE","TO"
+        });
+
+        combo.setFont(ModernTheme.FONT_REGULAR);
+        combo.setBackground(Color.WHITE);
+        combo.setBorder(ModernTheme.createRoundedBorder(ModernTheme.BORDER_RADIUS_SMALL));
+        combo.setPreferredSize(new Dimension(200, ModernTheme.INPUT_HEIGHT));
+
+        return combo;
+    }
+
+    private JCheckBox criarCheckNewsletter() {
+        JCheckBox check = new JCheckBox("Desejo receber newsletter com ofertas e novidades");
+        check.setFont(ModernTheme.FONT_REGULAR);
+        check.setForeground(ModernTheme.TEXT_SECONDARY);
+        check.setBackground(ModernTheme.PANEL_BG);
+        check.setBorder(BorderFactory.createEmptyBorder(ModernTheme.PADDING_SMALL, 0, 0, 0));
+
+        return check;
+    }
+
     // Getters para acessar os campos do formulário
-    public JTextField getCampoNome() {
+    public ModernComponents.ModernTextField getCampoNome() {
         return campoNome;
     }
 
-    public JTextField getCampoEmail() {
+    public ModernComponents.ModernTextField getCampoEmail() {
         return campoEmail;
     }
 
-    public JTextField getCampoCpf() {
+    public ModernComponents.ModernTextField getCampoCpf() {
         return campoCpf;
     }
 

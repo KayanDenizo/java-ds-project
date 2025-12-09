@@ -14,9 +14,8 @@ public class DatabaseConnection {
     private static final String PASSWORD = "";
     
     private static final String URL = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?useSSL=false&serverTimezone=UTC";
-    private static Connection connection;
     private static boolean tabelasCriadas = false;
-    
+
     static {
         // Carrega o driver MySQL
         try {
@@ -27,19 +26,20 @@ public class DatabaseConnection {
             System.err.println("Download: https://dev.mysql.com/downloads/connector/j/");
         }
     }
-    
+
     public static Connection getConnection() throws SQLException {
-        if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            if (!tabelasCriadas) {
-                criarTabelas();
-                tabelasCriadas = true;
-            }
+        Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        // Garante que auto-commit está habilitado
+        connection.setAutoCommit(true);
+
+        if (!tabelasCriadas) {
+            criarTabelas(connection);
+            tabelasCriadas = true;
         }
         return connection;
     }
     
-    private static void criarTabelas() {
+    private static void criarTabelas(Connection connection) {
         try (Statement stmt = connection.createStatement()) {
             // Tabela de clientes
             String sqlClientes = "CREATE TABLE IF NOT EXISTS clientes (" +
@@ -86,10 +86,11 @@ public class DatabaseConnection {
         }
     }
     
-    public static void closeConnection() {
+    // Método para fechar uma conexão específica (usado pelos DAOs com try-with-resources)
+    public static void closeConnection(Connection conn) {
         try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
             }
         } catch (SQLException e) {
             System.err.println("Erro ao fechar conexão: " + e.getMessage());
