@@ -115,7 +115,7 @@ public class MainFrame extends JFrame {
     }
 
     private void setupFrame() {
-        setTitle("Sistema de Cadastro");
+        setTitle("Sistema de Cadastro - FlatLaf Modern");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Controlamos o fechamento
         setSize(900, 700);
         setLocationRelativeTo(null);

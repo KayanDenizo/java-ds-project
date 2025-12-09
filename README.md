@@ -37,5 +37,6 @@ src/br/com/pi/
 ## 📦 Dependências
 
 - Driver MySQL: `lib/mysql-connector-j-9.5.0.jar`
+- FlatLaf (tema moderno): `lib/flatlaf-3.4.jar`
 - Java Swing (incluído no JDK)
 

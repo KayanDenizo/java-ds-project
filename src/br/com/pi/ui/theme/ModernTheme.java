@@ -1,5 +1,9 @@
 package br.com.pi.ui.theme;
 
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.FlatDarculaLaf;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -262,16 +266,76 @@ public class ModernTheme {
 
     public static void setGlobalLookAndFeel() {
         try {
-            // Tentar usar Nimbus se disponível, senão usar o padrão
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            // FlatLaf IntelliJ - tema moderno e profissional
+            FlatIntelliJLaf.setup();
+            // FlatDarculaLaf.setup(); // ← DESCOMENTE esta linha para ver o tema DARK!
+            customizeFlatLaf();
+            System.out.println("✅ FlatLaf IntelliJ carregado com sucesso!");
+            System.out.println("🎨 Tema moderno ativado - veja a diferença na interface!");
+            System.out.println("💡 Para ver mudança dramática: descomente FlatDarculaLaf.setup()");
+        } catch (Exception e) {
+            try {
+                // Fallback para FlatLaf Light
+                FlatLightLaf.setup();
+                customizeFlatLaf();
+                System.out.println("✅ FlatLaf Light carregado (fallback)");
+            } catch (Exception e2) {
+                try {
+                    // Fallback para Nimbus
+                    for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                        if ("Nimbus".equals(info.getName())) {
+                            UIManager.setLookAndFeel(info.getClassName());
+                            break;
+                        }
+                    }
+                    System.out.println("⚠️ Usando Nimbus (FlatLaf não disponível)");
+                } catch (Exception e3) {
+                    // Último fallback - usar o padrão do sistema
+                    System.err.println("❌ Usando Look and Feel padrão do sistema");
                 }
             }
-            // Customizações globais podem ser adicionadas aqui
+        }
+    }
+
+    private static void customizeFlatLaf() {
+        // Customizações específicas para FlatLaf + Glassmorphism
+        try {
+            // Bordas arredondadas consistentes
+            UIManager.put("Button.arc", BORDER_RADIUS_MEDIUM);
+            UIManager.put("Component.arc", BORDER_RADIUS_MEDIUM);
+            UIManager.put("TextComponent.arc", BORDER_RADIUS_SMALL);
+            UIManager.put("ScrollBar.arc", BORDER_RADIUS_MEDIUM);
+
+            // Cores que combinam com glassmorphism - mais perceptíveis
+            UIManager.put("Panel.background", new Color(250, 250, 250, 220)); // Fundo mais claro
+            UIManager.put("OptionPane.background", GLASS_BG);
+
+            // Indicador visual de FlatLaf ativo (borda sutil azul)
+            UIManager.put("Panel.border", BorderFactory.createLineBorder(new Color(33, 150, 243, 50), 1));
+
+            // Melhorar aparência dos botões - mais vibrantes com FlatLaf
+            UIManager.put("Button.focusWidth", 2);
+            UIManager.put("Button.focusColor", PRIMARY_COLOR);
+            UIManager.put("Button.default.focusColor", new Color(76, 175, 80)); // Verde para confirmação
+
+            // Scrollbar mais moderno (flat)
+            UIManager.put("ScrollBar.thumbArc", BORDER_RADIUS_MEDIUM);
+            UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
+
+            // Melhorar tabelas com cores mais vibrantes
+            UIManager.put("Table.selectionBackground", new Color(33, 150, 243, 120)); // Azul mais visível
+            UIManager.put("Table.selectionForeground", TEXT_PRIMARY);
+
+            // Componentes de foco mais visíveis
+            UIManager.put("Component.focusWidth", 2);
+            UIManager.put("Component.focusColor", PRIMARY_COLOR);
+
+            // Melhorar aparência geral
+            UIManager.put("TabbedPane.selectedBackground", PRIMARY_LIGHT);
+            UIManager.put("TabbedPane.selectedForeground", TEXT_WHITE);
+
         } catch (Exception e) {
-            System.err.println("Erro ao aplicar Look and Feel: " + e.getMessage());
+            System.err.println("Erro ao customizar FlatLaf: " + e.getMessage());
         }
     }
 

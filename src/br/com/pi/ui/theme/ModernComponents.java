@@ -32,6 +32,8 @@ public class ModernComponents {
             setBorder(ModernTheme.createGlassBorder(ModernTheme.BORDER_RADIUS_MEDIUM));
             setFocusPainted(false);
             setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+            // FlatLaf + Glassmorphism: manter aparência customizada
             setOpaque(false); // Importante para glassmorphism
 
             if (isPrimary) {
@@ -113,6 +115,9 @@ public class ModernComponents {
                 ModernTheme.createGlassBorder(ModernTheme.BORDER_RADIUS_SMALL),
                 BorderFactory.createEmptyBorder(4, 8, 4, 8)
             ));
+
+            // Manter aparência customizada para glassmorphism
+
             setBackground(new Color(255, 255, 255, 220)); // Fundo semi-transparente
             setForeground(ModernTheme.TEXT_PRIMARY);
             setOpaque(true);
